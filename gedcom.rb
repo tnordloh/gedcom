@@ -22,8 +22,7 @@ class Gedcom
       my_peek = stack[i+1]
       if my_peek != nil && my_peek[0] > item[0]
         current_level << myel
-      end
-      if my_peek != nil && my_peek[0] < item[0]
+      elsif my_peek != nil && my_peek[0] < item[0]
         current_level.pop
       end
       my_peek = nil
@@ -31,4 +30,3 @@ class Gedcom
     el
   end
 end
-
