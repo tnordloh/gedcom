@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
-require 'rexml/document'
-include REXML
+require './constants'
 require './name'
 class Gedcom
   def self.parse_stack stack

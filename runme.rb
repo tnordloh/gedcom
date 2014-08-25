@@ -1,7 +1,4 @@
 #!/usr/bin/env ruby
-require 'rexml/document'
-include REXML
-require './name'
 require './gedcom'
 #main code.  Create root element
 gedcom = Element.new "GEDCOM"

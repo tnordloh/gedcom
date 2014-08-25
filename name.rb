@@ -1,5 +1,4 @@
-require 'rexml/document'
-include REXML
+require './constants'
 #created a class to deal with the 'special case' of name
 class Name
   attr_reader :name_xml
