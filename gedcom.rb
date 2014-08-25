@@ -9,10 +9,12 @@ class Gedcom
     current_level << el
     stack.shift
     stack.each_with_index {|item,i|
-      myel = Element.new item[1]
-      myel.text=item[2]
+      myel = nil
       if item[1] == "NAME" && item[2] =~ /\//
         myel = Name.new(item[2]).name_xml
+      else
+        myel = Element.new item[1]
+        myel.text=item[2]
       end
       if item[0].to_i==0
         current_level << myel
