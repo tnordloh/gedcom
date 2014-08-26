@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 require 'rexml/document'
-require_relative 'name'
 Line = Struct.new(:level,:name,:data)
 
 class Fullname 
@@ -99,6 +98,7 @@ class Gedcom
     el
   end
   def print
+    add_stack if @stack.size > 0 
     REXML::Formatters::Pretty.new.write @root_node, $stdout
     puts
   end
