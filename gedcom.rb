@@ -21,7 +21,7 @@ class Gedcom
   def process_line line
     curline = parse_line line
     if is_level_0? curline
-      add_stack
+      add_stack_to_root
       @stack << curline
     else
       @stack << curline
@@ -34,7 +34,7 @@ class Gedcom
   def is_level_0? line
     line.level == 0 && @stack.size != 0
   end
-  def add_stack
+  def add_stack_to_root
     @root_node.add parse_stack 
     @stack = []
   end
@@ -98,7 +98,8 @@ class Gedcom
     el
   end
   def print
-    add_stack if @stack.size > 0 
+    #since there might be an element still in the stack, add it before printing
+    add_stack_to_root if @stack.size > 0 
     REXML::Formatters::Pretty.new.write @root_node, $stdout
     puts
   end
