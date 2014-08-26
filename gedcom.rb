@@ -38,11 +38,13 @@ class Gedcom
     @root_node.add parse_stack 
     @stack = []
   end
-  def set_level current_level, element, item1,item2 = nil
-    if item2 != nil
-      if item2.level > item1.level
-        current_level.push element 
-      elsif item2.level < item1.level
+  #determine if current line's 'level is greater than, equal to, or less than the next line
+  #push or pop the level stack accordingly.
+  def set_level current_level, current_element, curline,nextline = nil
+    if nextline != nil
+      if nextline.level > curline.level
+        current_level.push current_element 
+      elsif nextline.level < curline.level
         current_level.pop 
       end
     end
@@ -53,29 +55,26 @@ class Gedcom
     current_level= []
     el =create_element @stack.shift 
     current_level << el
-    @stack.each_with_index {|item,i|
-      myel = create_element item 
+    @stack.each_with_index {|line,i|
+      myel = create_element line 
       current_level[-1].add_element myel
-      current_level= set_level current_level,myel,item,@stack[i+1] 
+      current_level= set_level current_level,myel,line,@stack[i+1] 
     }
     el
   end
   def create_element(element)
     if element.name == "NAME" && element.data =~ /\//
-      create_name_element element
+      create_name_element Fullname.new(element.data)
     elsif element.name =~ /@/
       create_attribute_element element
     else
       create_standard_element element
     end
   end
-  def create_name_element element
-    name=Fullname.new(element.data)
+  def create_name_element name
     name_xml = create_given_name_element name.full_name
     name_xml.add_element create_given_name_element name.given_name
-    if name.surname != nil
-      name_xml.add_element create_surname_element name.surname
-    end
+    name_xml.add_element create_surname_element name.surname if name.surname != nil
     name_xml
   end
   def create_given_name_element full_name
