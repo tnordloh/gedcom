@@ -3,7 +3,7 @@ require 'rexml/document'
 class Name
   attr_reader :name_xml
   def initialize(name)
-    @name=name.delete("/")
+    @name=name.gsub!(/\//," ")
     @givn,@surn=name.split(/\s*\//)
     if @surn == nil
       @surn = " "

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'rexml/document'
-require './name'
+require_relative 'name'
 class Gedcom
   def self.parse_stack stack
     current_level= []

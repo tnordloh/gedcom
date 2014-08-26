@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'rexml/document'
-require './gedcom'
+require_relative 'gedcom'
 #main code.  Create root element
 gedcom = REXML::Element.new "GEDCOM"
 #empty stack, used to push and pop the relevant xml elements
