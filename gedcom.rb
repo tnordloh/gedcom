@@ -38,17 +38,15 @@ class Gedcom
     @root_node.add parse_stack 
     @stack = []
   end
-  #determine if current line's 'level is greater than, equal to, or less than the next line
-  #push or pop the level stack accordingly.
-  def set_level current_depth, current_element, curline,nextline = nil
-    if nextline != nil
-      if nextline.level > curline.level
-        current_depth.push current_element 
-      elsif nextline.level < curline.level
-        current_depth.pop 
-      end
+  #determine if current line's 'depth' is greater than, equal to, or less than the next line
+  #push or pop the depth stack accordingly.
+  def set_level current_depth, current_element, curline,nextline
+    if nextline.level > curline.level
+      current_depth.push current_element 
+    elsif nextline.level < curline.level
+      current_depth.pop 
     end
-    #if levels are equal, or next item doesn't exist, return same level
+    #if depths are equal, or next item doesn't exist, return same level
     current_depth
   end
   def parse_stack 
@@ -58,7 +56,7 @@ class Gedcom
     @stack.each_with_index {|line,i|
       myel = create_element line 
       current_depth[-1].add_element myel
-      current_depth= set_level current_depth,myel,line,@stack[i+1] 
+      current_depth= set_level current_depth,myel,line,@stack[i+1] if @stack[i+1] != nil
     }
     el
   end
