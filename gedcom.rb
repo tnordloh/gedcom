@@ -51,12 +51,20 @@ class Gedcom
   end
   def create_element(element)
     if element.name == "NAME" && element.data =~ /\//
-      Name.new(element.data).name_xml
+      create_name_element element
+    elsif element.name =~ /@ID@/
+      create_standard_element element
     else
-      el = REXML::Element.new element.name
-      el.text=element.data
-      el
+      create_standard_element element
     end
+  end
+  def create_name_element element
+    Name.new(element.data).name_xml
+  end
+  def create_standard_element element
+    el = REXML::Element.new element.name
+    el.text=element.data
+    el
   end
   def print
     REXML::Formatters::Pretty.new.write @root_node, $stdout
