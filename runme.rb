@@ -16,7 +16,6 @@ File.open('royal.ged').each_line do |line|
   end
   number,name,data = line.split %r{\s+}, 3
   mystack << [number.to_i,name,data]
-  #  puts "#{number}:#{name}:#{data}"
 end
 REXML::Formatters::Pretty.new.write gedcom, $stdout
 puts
