@@ -8,11 +8,7 @@ class Gedcom
     current_level << el
     stack.each_with_index {|item,i|
       myel = Gedcom.create_element item 
-      if item[0]==0
-        current_level << myel
-      else
-        current_level[-1].add_element myel
-      end
+      current_level[-1].add_element myel
       my_peek = stack[i+1]
       if my_peek != nil 
         if my_peek[0] > item[0]
@@ -26,7 +22,6 @@ class Gedcom
   end
   def self.create_element(element)
     if element[1] == "NAME" && element[2] =~ /\//
-      p element
       Name.new(element[2]).name_xml
     else
       el = REXML::Element.new element[1]
