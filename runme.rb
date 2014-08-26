@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
+require 'rexml/document'
 require './gedcom'
 #main code.  Create root element
-gedcom = Element.new "GEDCOM"
+gedcom = REXML::Element.new "GEDCOM"
 #empty stack, used to push and pop the relevant xml elements
 mystack=[]
 File.open('royal.ged').each_line do |line|
@@ -17,6 +18,5 @@ File.open('royal.ged').each_line do |line|
   mystack << [number.to_i,name,data]
   #  puts "#{number}:#{name}:#{data}"
 end
-Formatters::Pretty.new.write gedcom, $stdout
-#printer.write gedcom, $stdout
+REXML::Formatters::Pretty.new.write gedcom, $stdout
 puts
