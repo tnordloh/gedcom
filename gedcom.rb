@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require_relative 'MyElement'
+
 class Fullname 
   attr_reader :given_name, :surname
   def initialize raw_name
@@ -10,6 +11,7 @@ class Fullname
     @raw_name.gsub(/\//," ")
   end
 end
+
 class ID
   attr_reader :name
   def initialize name,data
@@ -29,21 +31,24 @@ class ID
 end
 
 class Gedcom
-  def initialize root_node
-    @stack = []
-    @root_node = MyElement.new(-1, root_node)
-    @curline = nil
+  def initialize list
+    @list = list
   end
-  def process_line line
-    curline = parse_line line
-    if is_level_0? curline
-      add_stack_to_root
-      @stack << curline
-    else
-      @stack << curline
-    end
+  def each 
+    stack = []
+    @list.each {|line|
+      curline = parse_line line
+      next if curline == nil
+      if is_level_0? curline, stack
+        yield parse_stack stack
+        stack = []
+      end
+      stack << curline
+    }
   end
   def parse_line line
+    line.chomp! 
+    return nil if line.empty?
     level,name,data = line.split %r{\s+}, 3
     if name =~ /NAME/
       my_name = Fullname.new(data)
@@ -58,12 +63,8 @@ class Gedcom
       MyElement.new(level.to_i,name,data)
     end
   end
-  def is_level_0? line
-    line.level == 0 && @stack.size != 0
-  end
-  def add_stack_to_root
-    @root_node.add_child parse_stack 
-    @stack = []
+  def is_level_0? line, stack
+    line.level == 0 && stack.size != 0
   end
   #determine if current line's 'depth' is greater than, equal to, or less than the next line
   #push or pop the depth stack accordingly.
@@ -76,20 +77,14 @@ class Gedcom
     #if depths are equal, or next item doesn't exist, return same level
     current_depth
   end
-  def parse_stack 
+  def parse_stack stack
     current_depth= []
-    current_depth << @stack.shift
+    current_depth << stack.shift
     el = current_depth[0]
-    @stack.each_with_index {|current_element,i|
+    stack.each_with_index {|current_element,i|
       current_depth[-1].add_child current_element
-      current_depth= set_level current_depth,current_element,@stack[i+1] if @stack[i+1] != nil
+      current_depth= set_level current_depth,current_element,stack[i+1] if stack[i+1] != nil
     }
     el
-  end
-  def root
-    @root_node
-  end
-  def print
-    @root_node.print
   end
 end
