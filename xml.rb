@@ -1,8 +1,9 @@
+require 'rexml/document'
 require_relative 'MyElement'
+
 class XmlWriter
-  def initialize tree
-    @tree = tree
-    @xml_tree = nil
+  def initialize out
+    @out = out
   end
   def create_tree tree
     el = REXML::Element.new tree.name
@@ -15,9 +16,9 @@ class XmlWriter
     }
     el
   end
-  def print
-    @xml_tree = create_tree @tree
-    REXML::Formatters::Pretty.new.write @xml_tree, $stdout
+  def write tree
+    my_tree = create_tree tree
+    REXML::Formatters::Pretty.new.write my_tree, @out
     puts
   end
 end
