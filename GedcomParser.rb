@@ -30,7 +30,7 @@ class ID
   end
 end
 
-class Gedcom
+class GedcomParser
   def initialize list
     @list = list
   end

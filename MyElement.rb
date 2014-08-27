@@ -1,4 +1,3 @@
-
 class MyElement
   attr_reader :level, :name, :data, :attribute
   def initialize level, name = nil, data = nil, attribute = nil
