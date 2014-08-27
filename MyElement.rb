@@ -8,11 +8,6 @@ class MyElement
   def add_child element
     @children << element
   end
-  def print header= ""
-    puts "#{header}#{level}:#{name}:#{data}:#{attribute}"
-    header = header + " "
-    @children.each {|child| child.print header}
-  end
   def get_children
     return @children
   end
