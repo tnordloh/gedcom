@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative 'xml'
+require_relative 'XmlWriter'
 require_relative 'gedcom'
 
 parser=Gedcom.new(File.open('royal.ged'))
