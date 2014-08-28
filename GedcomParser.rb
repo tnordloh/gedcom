@@ -46,6 +46,9 @@ class GedcomParser
       end
       stack << curline
     }
+    if stack.size >0
+      yield parse_stack stack
+    end
   end
   def parse_line line
     level,name,data = line.split %r{\s+}, 3
