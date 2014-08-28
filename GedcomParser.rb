@@ -33,12 +33,14 @@ end
 class GedcomParser
   def initialize list
     @list = list
+    p   @list.class
   end
   def each 
     stack = []
     @list.each {|line|
+      line.chomp! 
+      next if  line.empty?
       curline = parse_line line
-      next if curline == nil
       if is_level_0? curline, stack
         yield parse_stack stack
         stack = []
@@ -47,8 +49,6 @@ class GedcomParser
     }
   end
   def parse_line line
-    line.chomp! 
-    return nil if line.empty?
     level,name,data = line.split %r{\s+}, 3
     if name =~ /NAME/
       my_name = Fullname.new(data)
