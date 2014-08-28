@@ -33,7 +33,6 @@ end
 class GedcomParser
   def initialize list
     @list = list
-    p   @list.class
   end
   def each 
     stack = []
