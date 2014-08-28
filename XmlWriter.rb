@@ -18,7 +18,9 @@ class XmlWriter
   end
   def write tree
     my_tree = create_tree tree
-    REXML::Formatters::Pretty.new.write my_tree, @out
+    printer = REXML::Formatters::Pretty.new
+    printer.compact = true
+    printer.write my_tree, @out
     puts
   end
 end
