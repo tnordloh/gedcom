@@ -8,7 +8,7 @@ class Fullname
     @given_name,@surname=raw_name.split(/\s*\//)
   end
   def full_name
-    @raw_name.gsub(/\//," ")
+    @raw_name.gsub(/\//,' ')
   end
 end
 
@@ -23,7 +23,7 @@ class ID
     @data
   end
   def attribute_name
-    "ID"
+    'ID'
   end
   def attribute
     @Attribute.new(attribute_name, attribute_data)
@@ -55,8 +55,8 @@ class GedcomParser
     if name =~ /NAME/
       my_name = Fullname.new(data)
       returnme = MyElement.new(level.to_i,name,my_name.full_name)
-      returnme.add_child( MyElement.new(level.to_i+1,"GIVN",my_name.given_name))
-      returnme.add_child( MyElement.new(level.to_i+1,"SURN",my_name.surname))
+      returnme.add_child( MyElement.new(level.to_i+1,'GIVN',my_name.given_name))
+      returnme.add_child( MyElement.new(level.to_i+1,'SURN',my_name.surname))
       returnme
     elsif name =~ /@/
       my_id = ID.new(name,data)
