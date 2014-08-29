@@ -50,6 +50,7 @@ class GedcomParser
       yield parse_stack stack
     end
   end
+private
   def parse_line line
     level,name,data = line.split %r{\s+}, 3
     if name =~ /NAME/
